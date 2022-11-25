@@ -1,9 +1,9 @@
 	<form action="{{ $action }}" method="post">
 		@csrf <!-- diretiva do blade que evita ataque de XSS e CSRF -->
 
-		@isset($nome)
-		@method('PUT') <!-- Se tiver um $nome preenchido é pq vamos fazer um edit, por isso o PUT -->
-		@endisset
+		@if($update)
+		@method('PUT') <!-- Se for um update="true" (definido no edit.blade.php), usaremos o PUT -->
+		@endif
 		<div class="mb-3">
 			<label class="form-label" for="nome">Nome:</label>
 			<input class="form-control" 

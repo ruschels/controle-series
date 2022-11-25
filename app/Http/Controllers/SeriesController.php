@@ -23,7 +23,14 @@ class SeriesController extends Controller
 
     public function store(Request $request) {
         
+        $request->validate( //recebe um array com as regras de cada campo do request
+            [
+            'nome' => ['required', 'min:3']
+            ]
+        );
+
         $serie = Serie::create($request->all()); //salva dos os dados do request por mass assignment. Além do all() temos o only() 
+        // nao precisa usar o save()
 
          $request->session()->flash('mensagem.sucesso', "Série {$serie->nome} adicionada com sucesso");
 

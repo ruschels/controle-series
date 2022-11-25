@@ -15,6 +15,17 @@
 
 				<h1 class= 'text-light text-center'>{{ $title }}</h1>
 
+				<!-- validando mostrando as validaçoes  -->
+				@if ($errors->any())
+   					<div class="alert alert-danger">
+	        			<ul>
+	            			@foreach ($errors->all() as $error)
+	                			<li>{{ $error }}</li>
+	            			@endforeach
+	        			</ul>
+    				</div>
+				@endif
+
 
 				{{ $slot }}
 				<br>
