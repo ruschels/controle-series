@@ -61,7 +61,28 @@ class SeriesController extends Controller
         $series->delete();
 
         return to_route('series.index')
-            ->with('mensagem.sucesso', "Série {$serie->nome} removida com sucesso");
+            ->with('mensagem.sucesso', "Série {$series->nome} removida com sucesso");
             //envia o flash message sem precisar usar o flash()
+    }
+
+    public function edit(Serie $series)
+    {
+    return view('series.edit')->with('serie', $series);
+    }
+
+    public function update(Serie $series, Request $request)
+    //recebe a serie a ser atualizada e o conteudo novo a ser enviado
+    { 
+        $series->nome = $request->nome;
+
+        /*podemos usar um mass assignment
+
+        $series->fill($request->all());
+        assim o laravel consulta o atributo fillable da classe para preencher
+        */
+        $series->save();
+
+        return to_route('series.index')
+            ->with('mensagem.sucesso', "Série '{$series->nome}' atualizada com sucesso");
     }
 }

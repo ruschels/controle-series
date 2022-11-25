@@ -52,7 +52,7 @@ GET|HEAD        series ............... series.index › SeriesController@index
   */
 
 Route::resource('/series', SeriesController::class)
-    ->only(['index', 'create', 'store', 'destroy']);
+    ->except(['show']);
     //assim usamos a sintaxe resource para criar somente as rotas desejadas.
 
 //Route::delete('/series/destroy/{series}', [SeriesController::class, 'destroy'])
