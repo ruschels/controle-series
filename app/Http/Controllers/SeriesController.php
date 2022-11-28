@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
  
 use Illuminate\Http\Request;
 use App\Models\Serie;
+use App\Http\Requests\SeriesFormRequest;
  
 class SeriesController extends Controller
 {
@@ -21,13 +22,8 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(Request $request) {
+    public function store(SeriesFormRequest $request) { //agora usamos a nossa classe Series Form Request que já possui as validaçoes que queremos
         
-        $request->validate( //recebe um array com as regras de cada campo do request
-            [
-            'nome' => ['required', 'min:3']
-            ]
-        );
 
         $serie = Serie::create($request->all()); //salva dos os dados do request por mass assignment. Além do all() temos o only() 
         // nao precisa usar o save()
@@ -77,7 +73,7 @@ class SeriesController extends Controller
     return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, Request $request)
+    public function update(Serie $series, SeriesFormRequest $request)
     //recebe a serie a ser atualizada e o conteudo novo a ser enviado
     { 
         $series->nome = $request->nome;
