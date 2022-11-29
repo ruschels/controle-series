@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
  
 use Illuminate\Http\Request;
-use App\Models\Serie;
+use App\Models\Series;
 use App\Http\Requests\SeriesFormRequest;
  
 class SeriesController extends Controller
@@ -11,7 +11,7 @@ class SeriesController extends Controller
     
     public function index(Request $request)
     {
-        $series = Serie::all(); //all() é um método das Models. Series é uma Model. all() retorna uma COLLECTION - que pode ser acessada como um array
+        $series = Series::all(); //all() é um método das Models. Series é uma Model. all() retorna uma COLLECTION - que pode ser acessada como um array
 
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
@@ -25,7 +25,7 @@ class SeriesController extends Controller
     public function store(SeriesFormRequest $request) { //agora usamos a nossa classe Series Form Request que já possui as validaçoes que queremos
         
 
-        $serie = Serie::create($request->all()); //salva dos os dados do request por mass assignment. Além do all() temos o only() 
+        $serie = Series::create($request->all()); //salva dos os dados do request por mass assignment. Além do all() temos o only() 
         // nao precisa usar o save()
 
          $request->session()->flash('mensagem.sucesso', "Série {$serie->nome} adicionada com sucesso");
@@ -53,7 +53,7 @@ class SeriesController extends Controller
 
     }
 
-    public function destroy(Serie $series)
+    public function destroy(Series $series)
     {
         /*
         Serie::destroy($request->series); //o parametro ->series é o serie->id passado no foreach da view index
@@ -68,12 +68,12 @@ class SeriesController extends Controller
             //envia o flash message sem precisar usar o flash()
     }
 
-    public function edit(Serie $series)
+    public function edit(Series $series)
     {
     return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, SeriesFormRequest $request)
+    public function update(Series $series, SeriesFormRequest $request)
     //recebe a serie a ser atualizada e o conteudo novo a ser enviado
     { 
         $series->nome = $request->nome;
