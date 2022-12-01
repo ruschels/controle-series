@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
  
 use Illuminate\Http\Request;
 use App\Models\Series;
+use App\Models\Season;
+use App\Models\Episode;
 use App\Http\Requests\SeriesFormRequest;
  
 class SeriesController extends Controller
@@ -24,9 +26,55 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request) { //agora usamos a nossa classe Series Form Request que já possui as validaçoes que queremos
         
-
+        
         $serie = Series::create($request->all()); //salva dos os dados do request por mass assignment. Além do all() temos o only() 
         // nao precisa usar o save()
+
+        $seasons = [];
+        for ($i = 1; $i <= $request->seasonsQty; $i++) {
+            $seasons[] = [
+                'series_id'=> $serie->id,
+                'number' => $i,
+            ];
+        }
+        Season::insert($seasons);
+
+        $episodes = [];
+
+        foreach ($serie->seasons as $season) {
+            for ($j = 1; $j <= $request->episodesPerSeason; $j++) {
+                $episodes[] =  [
+                    'season_id'=> $season->id,
+                    'number' => $j
+                ];
+            }
+        }
+
+        Episode::insert($episodes);
+
+
+
+
+
+        /* outra forma de inserir as temporadas e episodios, porem acaba gerando MUITAS queries
+        for ($i = 1; $i <= $request->seasonsQty; $i++) {
+            $season = $serie->seasons()->create( //enviado por mass assignment (precisamos do $fillable na model)
+                [
+                    'number'=> $i,
+            ]
+            );
+        
+
+            for ($j = 1; $j <= $request->episodesPerSeason; $j++) {
+                $episode = $season->episodes()->create(
+                    [
+                        'number'=> $j,
+                    ]
+                    );
+            }
+    }
+*/
+
 
          $request->session()->flash('mensagem.sucesso', "Série {$serie->nome} adicionada com sucesso");
 
