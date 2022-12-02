@@ -12,6 +12,11 @@ use App\Repositories\SeriesRepository;
  
 class SeriesController extends Controller
 {
+
+    public function __construct(private SeriesRepository $repository) {
+
+
+    }
     
     public function index(Request $request)
     {
@@ -26,9 +31,9 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(SeriesFormRequest $request, SeriesRepository $repository) { 
+    public function store(SeriesFormRequest $request) { 
         
-       $serie = $repository->add($request);
+       $serie = $this->repository->add($request);
 
         $request->session()->flash('mensagem.sucesso', "Série {$serie->nome} adicionada com sucesso");
 
