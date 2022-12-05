@@ -15,6 +15,12 @@
 
 				<h1 class= 'text-light text-center'>{{ $title }}</h1>
 
+				@isset($mensagemSucesso)
+					<div class="alert alert-success">
+						{{ $mensagemSucesso }}
+					</div>
+				@endisset
+
 				<!-- validando mostrando as validaçoes  -->
 				@if ($errors->any())
    					<div class="alert alert-danger">
