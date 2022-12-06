@@ -15,7 +15,7 @@
 
 				<h1 class= 'text-light text-center'>{{ $title }}</h1>
 
-				@isset($mensagemSucesso)
+				 @isset($mensagemSucesso)
 					<div class="alert alert-success">
 						{{ $mensagemSucesso }}
 					</div>
