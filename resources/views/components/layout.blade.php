@@ -11,9 +11,19 @@
 		<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 	</head>
 	<body>
-		<div class="bg-dark container">  	
 
-				<h1 class= 'text-light text-center'>{{ $title }}</h1>
+
+		<div class="container bg-light">  	
+
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="#">Home</a>
+	
+					<a href="{{ route('logout') }}">Sair</a>
+				</div>
+			</nav>
+
+				<h1 class= 'text-center'>{{ $title }}</h1>
 
 				 @isset($mensagemSucesso)
 					<div class="alert alert-success">

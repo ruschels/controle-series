@@ -59,7 +59,7 @@ GET|HEAD        series ............... series.index › SeriesController@index
   */
 
 Route::resource('/series', SeriesController::class)
-    ->except(['show']);
+    ->except(['show'])->middleware(Autenticador::class);
     //assim usamos a sintaxe resource para criar somente as rotas desejadas.
 
 //Route::delete('/series/destroy/{series}', [SeriesController::class, 'destroy'])
@@ -73,6 +73,7 @@ Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('signin');
+Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 
 
 Route::get('/register', [UsersController::class, 'create'])->name('users.create');
