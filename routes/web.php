@@ -22,9 +22,7 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('series');
-})->middleware(Autenticador::class);
+
 
 /*
 
@@ -59,16 +57,31 @@ GET|HEAD        series ............... series.index › SeriesController@index
   */
 
 Route::resource('/series', SeriesController::class)
-    ->except(['show'])->middleware(Autenticador::class);
-    //assim usamos a sintaxe resource para criar somente as rotas desejadas.
+    ->except(['show']);
+    //->middleware(Autenticador::class); //Assim o middleware seria chamado
+    //para todas as rotas
 
 //Route::delete('/series/destroy/{series}', [SeriesController::class, 'destroy'])
     //->name('series.destroy');
 
-Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])->name('seasons.index');
 
-Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])->name('episodes.index');
-Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])->name('episodes.update');
+Route::middleware('autenticador')->group(function() {
+
+    Route::get('/', function () {
+        return redirect('series');
+    });
+    
+    Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])
+    ->name('seasons.index');
+    // ->middleware('autenticador');
+    // poderia aplicar o middleware assim se a rota estivesse fora da rota de middleware
+    
+    Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])->name('episodes.index');
+    Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])->name('episodes.update');
+    
+    
+
+});
 
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
